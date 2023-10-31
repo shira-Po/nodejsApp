@@ -1,0 +1,19 @@
+version: '3.9'
+
+# הגדרת שירות MongoDB
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+
+  # הגדרת שירות אפליקציית Node.js
+  nodejs-app:
+    build: .
+    depends_on:
+      - mongodb
+    ports:
+      - "4000:4000"
+    entrypoint: "node index.js"
+    environment:
+      - DB_URL=mongodb://mongo-container:27017/mydb
